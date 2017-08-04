@@ -11,6 +11,11 @@ import (
 	"strings"
 )
 
+const (
+	//TestCSV test csv
+	TestCSV = "test_data.csv"
+)
+
 //Card is template for a flash card
 type Card struct {
 	Front		string
@@ -24,15 +29,33 @@ type Cards struct {
 }
 
 
-func main(){
+//CreateTemplate is responsible for creating the templates
+func CreateTemplate(name, words string) *template.Template {
+	templ, err := template.New(name).Parse(words)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return templ
+}
+
+//PrintToScreen prints templates to standard out
+func PrintToScreen(templ *template.Template, data interface{}){
+	err := templ.Execute(os.Stdout, data)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+
+// CreateCards creates the flash cards
+func CreateCards(fileName string) Cards {
 	// holds all the cards
 	var cards Cards
 
 	// tempt variable to hold a single card
 	var tempt Card
 
-	// opens the test csv file
-	file, err := os.Open("test_data.csv")
+	file, err := os.Open(fileName)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,38 +67,35 @@ func main(){
 		if err == io.EOF {
 			break
 		}
-
-		if err != nil{
+		if err != nil {
 			log.Fatal(err)
 		}
-		
-		// Tempt variable
+
+		// Tempt variable for card
 		tempt = Card{record[0], record[1], record[2]}
 
-		// Fill up the Cards
+		// Append to list
 		cards.Cards = append(cards.Cards, tempt)
-
-		// Testing out the template stuff
-		templ, err := template.New("test").Parse("\n--------------\nFront: {{.Front}}\nBack: {{.Back}}\nHint: {{.Hint}}\n")
-		if err != nil {
-			log.Fatal(err)
-		}
-		err = templ.Execute(os.Stdout, tempt)
-		if err != nil {
-			log.Fatal(err)
-		}
 	}
+	return cards
+}
+
+// BreakLoop handles the cases that break the loop
+func BreakLoop(input string) bool{
+	var answer bool
+	if strings.Compare(input, "q") == 0 {
+		answer = true
+	}
+	return answer
+}
+
+func main(){
+	// holds all the cards
+	cards := CreateCards(TestCSV)
 
 	// Testing out using range in templates
-	templ2, err := template.New("test2").Parse("{{range .Cards}}------------\nFront: {{.Front}}\n{{end}}")
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = templ2.Execute(os.Stdout, cards)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	templ2 := CreateTemplate("test2", "{{range .Cards}}------------\nFront: {{.Front}}\n{{end}}")
+	PrintToScreen(templ2, cards)
 
 	input := bufio.NewScanner(os.Stdin)
 	var userInput string
@@ -85,12 +105,18 @@ func main(){
 	for input.Scan() {
 		userInput = input.Text()
 		fmt.Println(userInput)
+		fmt.Printf("Count: %d\n", count)
 		fmt.Println(cards.Cards[count])
 
-		if strings.Compare(userInput, "q") == 0 {
+		if BreakLoop(userInput) {
+			break
+		}else {
+			count++
+		}
+		//Break if out of range
+		if len(cards.Cards) <= count {
 			break
 		}
-		count++
 	}
 
 	fmt.Println("The program completed running")
