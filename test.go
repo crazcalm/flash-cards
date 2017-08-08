@@ -14,6 +14,12 @@ import (
 const (
 	//TestCSV test csv
 	TestCSV = "test_data.csv"
+	//CARDFRONT template for the front of the card
+	CARDFRONT = "Card front:\n{{.Front}}\n"
+	//CARDBACK template for the back of the card
+	CARDBACK = "Card back:\n{{.Back}}\n"
+	//CARDHINT template for the card hint
+	CARDHINT = "Card Hint:\n{{.Hint}}\n"
 )
 
 //Card is template for a flash card
@@ -82,11 +88,52 @@ func CreateCards(fileName string) Cards {
 
 // BreakLoop handles the cases that break the loop
 func BreakLoop(input string) bool{
+	quits := []string{"q", "quit" }
 	var answer bool
-	if strings.Compare(input, "q") == 0 {
-		answer = true
+	for _, quit := range quits {
+		if strings.Compare(input, quit) == 0 {
+			answer = true
+		}
 	}
 	return answer
+}
+
+//InSlice used to check of string is in slice
+func InSlice(slice []string, s string) bool{
+	result := false
+	for _, item := range slice {
+		if strings.Compare(item, s) == 0 {
+			result = true
+		}
+	}
+	return result
+}
+
+//InputCardFace used to figure out what part of the card the user wants to see
+func InputCardFace(input string) string {
+	flips := []string{"f", "flip"}
+	hints := []string{"h", "hint"}
+	result := "front"
+
+	if InSlice(flips, input){
+		result = "flip"
+	} else if InSlice(hints, input){
+		result = "hint"
+	}
+	return result
+}
+
+//TemplateString used to create the correct card template output
+func TemplateString(c Card, face string) *template.Template {
+	var result *template.Template
+	if strings.Compare(face, "hint") == 0 {
+		result = CreateTemplate("test3", CARDHINT)
+	}else if strings.Compare(face, "flip") == 0 {
+		result = CreateTemplate("test4", CARDBACK)
+	}else {
+		result = CreateTemplate("test5", CARDFRONT)
+	}
+	return result
 }
 
 func main(){
@@ -100,6 +147,8 @@ func main(){
 	input := bufio.NewScanner(os.Stdin)
 	var userInput string
 	var count int
+	var cardFace string
+	var output *template.Template
 
 	// Testing out the user interface loop
 	for input.Scan() {
@@ -107,6 +156,10 @@ func main(){
 		fmt.Println(userInput)
 		fmt.Printf("Count: %d\n", count)
 		fmt.Println(cards.Cards[count])
+
+		cardFace = InputCardFace(userInput)
+		output = TemplateString(cards.Cards[count], cardFace)
+		PrintToScreen(output, cards.Cards[count])
 
 		if BreakLoop(userInput) {
 			break
