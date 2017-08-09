@@ -6,10 +6,12 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"os"
 	"os/exec"
 	"strings"
 	"text/template"
+	"time"
 )
 
 const (
@@ -23,6 +25,11 @@ const (
 	CARDHINT = "Card Hint:\n{{.Hint}}\n\n\n"
 )
 
+func init() {
+	//I need to double check that is the proper way to seed the rand generator.
+	rand.Seed(time.Now().UnixNano())
+}
+
 //Card is template for a flash card
 type Card struct {
 	Front string
@@ -33,6 +40,26 @@ type Card struct {
 //Cards struct for all cards
 type Cards struct {
 	Cards []Card
+}
+
+//Shuffle shuffles the cards
+func (c Cards) Shuffle() {
+	numOfCards := len(c.Cards)
+	var tempt Card
+	var swapIndex int
+
+	// I need to figure out the cases that I will ignore...
+	// I also need to figure out the each cases...
+	if numOfCards > 1 {
+		numOfCards--
+	}
+
+	for index := range c.Cards {
+		swapIndex = rand.Intn(numOfCards)
+		tempt = c.Cards[index]
+		c.Cards[index] = c.Cards[swapIndex]
+		c.Cards[swapIndex] = tempt
+	}
 }
 
 //CreateTemplate is responsible for creating the templates
@@ -164,6 +191,7 @@ func Clear() {
 func main() {
 	// holds all the cards
 	cards := CreateCards(TestCSV)
+	cards.Shuffle()
 
 	input := bufio.NewScanner(os.Stdin)
 	var userInput string
@@ -183,7 +211,7 @@ func main() {
 		// clears the screen
 		Clear()
 
-		fmt.Println(userInput)
+		fmt.Printf("user input: %s\n", userInput)
 
 		if BreakLoop(userInput) {
 			break
