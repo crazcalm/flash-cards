@@ -1,14 +1,15 @@
 package main
 
 import (
-	"os"
-	"log"
-	"encoding/csv"
-	"io"
-	"text/template"
-	"fmt"
 	"bufio"
+	"encoding/csv"
+	"fmt"
+	"io"
+	"log"
+	"os"
+	"os/exec"
 	"strings"
+	"text/template"
 )
 
 const (
@@ -24,16 +25,15 @@ const (
 
 //Card is template for a flash card
 type Card struct {
-	Front		string
-	Back		string
-	Hint		string
+	Front string
+	Back  string
+	Hint  string
 }
 
 //Cards struct for all cards
 type Cards struct {
-	Cards		[]Card
+	Cards []Card
 }
-
 
 //CreateTemplate is responsible for creating the templates
 func CreateTemplate(name, words string) *template.Template {
@@ -45,13 +45,12 @@ func CreateTemplate(name, words string) *template.Template {
 }
 
 //PrintToScreen prints templates to standard out
-func PrintToScreen(templ *template.Template, data interface{}){
+func PrintToScreen(templ *template.Template, data interface{}) {
 	err := templ.Execute(os.Stdout, data)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
-
 
 // CreateCards creates the flash cards
 func CreateCards(fileName string) Cards {
@@ -87,8 +86,8 @@ func CreateCards(fileName string) Cards {
 }
 
 // BreakLoop handles the cases that break the loop
-func BreakLoop(input string) bool{
-	quits := []string{"q", "quit" }
+func BreakLoop(input string) bool {
+	quits := []string{"q", "quit"}
 	var answer bool
 	for _, quit := range quits {
 		if strings.Compare(input, quit) == 0 {
@@ -99,7 +98,7 @@ func BreakLoop(input string) bool{
 }
 
 //InSlice used to check of string is in slice
-func InSlice(slice []string, s string) bool{
+func InSlice(slice []string, s string) bool {
 	result := false
 	for _, item := range slice {
 		if strings.Compare(item, s) == 0 {
@@ -115,9 +114,9 @@ func InputCardFace(input string) string {
 	hints := []string{"h", "hint"}
 	result := "front"
 
-	if InSlice(flips, input){
+	if InSlice(flips, input) {
 		result = "flip"
-	} else if InSlice(hints, input){
+	} else if InSlice(hints, input) {
 		result = "hint"
 	}
 	return result
@@ -128,9 +127,9 @@ func TemplateString(c Card, face string) *template.Template {
 	var result *template.Template
 	if strings.Compare(face, "hint") == 0 {
 		result = CreateTemplate("test3", CARDHINT)
-	}else if strings.Compare(face, "flip") == 0 {
+	} else if strings.Compare(face, "flip") == 0 {
 		result = CreateTemplate("test4", CARDBACK)
-	}else {
+	} else {
 		result = CreateTemplate("test5", CARDFRONT)
 	}
 	return result
@@ -155,13 +154,16 @@ func CardSelectCounter(input string, count int) int {
 	return count
 }
 
-func main(){
+// Clear clears the screen.
+func Clear() {
+	c := exec.Command("clear")
+	c.Stdout = os.Stdout
+	c.Run()
+}
+
+func main() {
 	// holds all the cards
 	cards := CreateCards(TestCSV)
-
-	// Testing out using range in templates
-	templ2 := CreateTemplate("test2", "{{range .Cards}}------------\nFront: {{.Front}}\n{{end}}\n\n")
-	PrintToScreen(templ2, cards)
 
 	input := bufio.NewScanner(os.Stdin)
 	var userInput string
@@ -177,6 +179,10 @@ func main(){
 	// Testing out the user interface loop
 	for input.Scan() {
 		userInput = input.Text()
+
+		// clears the screen
+		Clear()
+
 		fmt.Println(userInput)
 
 		if BreakLoop(userInput) {
