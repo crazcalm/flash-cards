@@ -15,11 +15,11 @@ const (
 	//TestCSV test csv
 	TestCSV = "test_data.csv"
 	//CARDFRONT template for the front of the card
-	CARDFRONT = "Card front:\n{{.Front}}\n"
+	CARDFRONT = "Card front:\n{{.Front}}\n\n\n"
 	//CARDBACK template for the back of the card
-	CARDBACK = "Card back:\n{{.Back}}\n"
+	CARDBACK = "Card back:\n{{.Back}}\n\n\n"
 	//CARDHINT template for the card hint
-	CARDHINT = "Card Hint:\n{{.Hint}}\n"
+	CARDHINT = "Card Hint:\n{{.Hint}}\n\n\n"
 )
 
 //Card is template for a flash card
@@ -136,12 +136,31 @@ func TemplateString(c Card, face string) *template.Template {
 	return result
 }
 
+//CardSelectCounter use to increment and decrement the card counter
+func CardSelectCounter(input string, count int) int {
+	forward := []string{"n", "next"}
+	previous := []string{"p", "previous"}
+
+	for _, f := range forward {
+		if strings.Compare(f, input) == 0 {
+			count++
+		}
+	}
+
+	for _, p := range previous {
+		if strings.Compare(p, input) == 0 {
+			count--
+		}
+	}
+	return count
+}
+
 func main(){
 	// holds all the cards
 	cards := CreateCards(TestCSV)
 
 	// Testing out using range in templates
-	templ2 := CreateTemplate("test2", "{{range .Cards}}------------\nFront: {{.Front}}\n{{end}}")
+	templ2 := CreateTemplate("test2", "{{range .Cards}}------------\nFront: {{.Front}}\n{{end}}\n\n")
 	PrintToScreen(templ2, cards)
 
 	input := bufio.NewScanner(os.Stdin)
@@ -150,26 +169,28 @@ func main(){
 	var cardFace string
 	var output *template.Template
 
+	//Need to print the first card...
+	cardFace = InputCardFace(userInput)
+	output = TemplateString(cards.Cards[count], cardFace)
+	PrintToScreen(output, cards.Cards[count])
+
 	// Testing out the user interface loop
 	for input.Scan() {
 		userInput = input.Text()
 		fmt.Println(userInput)
-		fmt.Printf("Count: %d\n", count)
-		fmt.Println(cards.Cards[count])
-
-		cardFace = InputCardFace(userInput)
-		output = TemplateString(cards.Cards[count], cardFace)
-		PrintToScreen(output, cards.Cards[count])
 
 		if BreakLoop(userInput) {
 			break
-		}else {
-			count++
 		}
+		count = CardSelectCounter(userInput, count)
 		//Break if out of range
 		if len(cards.Cards) <= count {
 			break
 		}
+		cardFace = InputCardFace(userInput)
+		output = TemplateString(cards.Cards[count], cardFace)
+		PrintToScreen(output, cards.Cards[count])
+		fmt.Printf("Count: %d\n", count)
 	}
 
 	fmt.Println("The program completed running")
