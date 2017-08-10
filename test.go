@@ -216,7 +216,7 @@ func main() {
 	cardFace = InputCardFace(userInput)
 	output = TemplateString(cards.Cards[count], cardFace)
 	PrintToScreen(output, cards.Cards[count])
-	fmt.Printf(COUNTERTEXT, count, len(cards.Cards))
+	fmt.Printf(COUNTERTEXT, count + 1, len(cards.Cards))
 	fmt.Printf(HELPTEXT)
 	fmt.Printf(USERINPUTTEXT)
 
@@ -238,7 +238,7 @@ func main() {
 		cardFace = InputCardFace(userInput)
 		output = TemplateString(cards.Cards[count], cardFace)
 		PrintToScreen(output, cards.Cards[count])
-		fmt.Printf(COUNTERTEXT, count, len(cards.Cards))
+		fmt.Printf(COUNTERTEXT, count + 1, len(cards.Cards))
 		fmt.Printf(HELPTEXT)
 		fmt.Printf(USERINPUTTEXT)
 	}
