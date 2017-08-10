@@ -23,6 +23,12 @@ const (
 	CARDBACK = "Card back:\n{{.Back}}\n\n\n"
 	//CARDHINT template for the card hint
 	CARDHINT = "Card Hint:\n{{.Hint}}\n\n\n"
+	//HELPTEXT shows the commands
+	HELPTEXT = "\n\n(n)ext (p)revious (f)lip (h)int (q)uit\n"
+	//COUNTERTEXT template for card counter text
+	COUNTERTEXT = "Count: %d/%d\n"
+	//USERINPUTTEXT the template for taking in the user input
+	USERINPUTTEXT = "\nUser input: "
 )
 
 func init() {
@@ -189,6 +195,9 @@ func Clear() {
 }
 
 func main() {
+	//Clear the screen
+	Clear()
+
 	// holds all the cards
 	cards := CreateCards(TestCSV)
 	cards.Shuffle()
@@ -203,6 +212,9 @@ func main() {
 	cardFace = InputCardFace(userInput)
 	output = TemplateString(cards.Cards[count], cardFace)
 	PrintToScreen(output, cards.Cards[count])
+	fmt.Printf(COUNTERTEXT, count, len(cards.Cards))
+	fmt.Printf(HELPTEXT)
+	fmt.Printf(USERINPUTTEXT)
 
 	// Testing out the user interface loop
 	for input.Scan() {
@@ -210,8 +222,6 @@ func main() {
 
 		// clears the screen
 		Clear()
-
-		fmt.Printf("user input: %s\n", userInput)
 
 		if BreakLoop(userInput) {
 			break
@@ -224,7 +234,9 @@ func main() {
 		cardFace = InputCardFace(userInput)
 		output = TemplateString(cards.Cards[count], cardFace)
 		PrintToScreen(output, cards.Cards[count])
-		fmt.Printf("Count: %d\n", count)
+		fmt.Printf(COUNTERTEXT, count, len(cards.Cards))
+		fmt.Printf(HELPTEXT)
+		fmt.Printf(USERINPUTTEXT)
 	}
 
 	fmt.Println("The program completed running")
