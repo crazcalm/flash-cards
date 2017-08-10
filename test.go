@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -15,8 +16,6 @@ import (
 )
 
 const (
-	//TestCSV test csv
-	TestCSV = "test_data.csv"
 	//CARDFRONT template for the front of the card
 	CARDFRONT = "Card front:\n{{.Front}}\n\n\n"
 	//CARDBACK template for the back of the card
@@ -30,6 +29,8 @@ const (
 	//USERINPUTTEXT the template for taking in the user input
 	USERINPUTTEXT = "\nUser input: "
 )
+
+var csvFile = flag.String("f", "", "file: path to csv file")
 
 func init() {
 	//I need to double check that is the proper way to seed the rand generator.
@@ -198,8 +199,11 @@ func main() {
 	//Clear the screen
 	Clear()
 
+	//CSV file that was passed in
+	flag.Parse()
+
 	// holds all the cards
-	cards := CreateCards(TestCSV)
+	cards := CreateCards(*csvFile)
 	cards.Shuffle()
 
 	input := bufio.NewScanner(os.Stdin)
