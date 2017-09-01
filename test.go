@@ -182,7 +182,9 @@ func CardSelectCounter(input string, count int) int {
 
 	for _, p := range previous {
 		if strings.Compare(p, input) == 0 {
-			count--
+			if count > 0 {
+				count--
+			}
 		}
 	}
 	return count
