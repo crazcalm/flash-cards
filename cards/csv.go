@@ -1,10 +1,10 @@
 package flashcards
 
 import (
-	"os"
+	"encoding/csv"
 	"io"
 	"log"
-	"encoding/csv"
+	"os"
 )
 
 // CreateCards creates the flash cards

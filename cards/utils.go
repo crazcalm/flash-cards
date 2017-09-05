@@ -2,10 +2,10 @@ package flashcards
 
 import (
 	"log"
-	"text/template"
-	"strings"
 	"os"
 	"os/exec"
+	"strings"
+	"text/template"
 )
 
 //PrintToScreen prints templates to standard out

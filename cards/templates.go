@@ -1,9 +1,9 @@
 package flashcards
 
 import (
-	"text/template"
 	"log"
 	"strings"
+	"text/template"
 )
 
 //CreateTemplate is responsible for creating the templates
