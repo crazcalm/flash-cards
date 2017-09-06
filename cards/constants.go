@@ -14,5 +14,7 @@ const (
 	//USERINPUTTEXT the template for taking in the user input
 	USERINPUTTEXT = "\nUser input: "
 	//RANDOMCARD used for the random card app
-	RANDOMCARD = "Name: {{.Front}} ({{.Back}}) -- {{.Hint}}\n" 
+	RANDOMCARD = "Name: {{.Front}} ({{.Back}}) -- {{.Hint}}\n"
+	//GROUPCARD used for the group card app
+	GROUPCARD = "{{.Front}} ({{.Back}}) -- {{.Hint}}\n"
 )
