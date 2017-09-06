@@ -13,4 +13,6 @@ const (
 	COUNTERTEXT = "Count: %d/%d\n"
 	//USERINPUTTEXT the template for taking in the user input
 	USERINPUTTEXT = "\nUser input: "
+	//RANDOMCARD used for the random card app
+	RANDOMCARD = "Name: {{.Front}} ({{.Back}}) -- {{.Hint}}\n" 
 )

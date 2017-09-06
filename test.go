@@ -12,5 +12,5 @@ func main() {
 	flag.Parse()
 
 	//Run the app
-	flashcards.FlashcardApp(*csvFile)
+	flashcards.RandomCardApp(*csvFile)
 }

@@ -7,13 +7,26 @@ import (
 	"text/template"
 )
 
+
+//RandomCardApp Prints out one random card
+func RandomCardApp(csvFile string) {
+	//Clear the screen
+	Clear()
+
+	//Holds all the cards
+	cards:= CreateCards(csvFile)
+
+	//Shuffles the cards
+	cards.Shuffle()
+
+	template := CreateTemplate("test6", RANDOMCARD)
+	PrintToScreen(template, cards.Cards[0])
+}
+
 //FlashcardApp is used to run the terminal flashcard app
 func FlashcardApp(csvFile string) {
 	//Clear the screen
 	Clear()
-
-	//CSV file that was passed in
-	//flag.Parse()
 
 	// holds all the cards
 	cards := CreateCards(csvFile)
