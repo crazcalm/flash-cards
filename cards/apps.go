@@ -25,7 +25,7 @@ func GroupCardsApp(csvFile string, numOfGroups int) {
 	var count int
 
 	for i:= 1; i<=numOfGroups; i++ {
-		fmt.Println("Group %f:", i)
+		fmt.Printf("Group %d:\n", i)
 		for count<len(cards.Cards) {
 			output := CreateTemplate("test7", GROUPCARD)
 			fmt.Print(count, " ")
