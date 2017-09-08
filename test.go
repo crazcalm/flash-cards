@@ -6,7 +6,7 @@ import (
 )
 
 var csvFile = flag.String("f", "", "file: path to csv file")
-var numOfGroups = flag.Int("g", 0, "number of groups")
+var shuffle = flag.Bool("s", true, "Shuffle the cards")
 
 func main() {
 	//CSV file that was passed in
@@ -16,5 +16,5 @@ func main() {
 	cards.Shuffle()
 
 	//Run the app
-	flashcards.FlashcardApp(cards)
+	flashcards.FlashcardApp(cards, *shuffle)
 }

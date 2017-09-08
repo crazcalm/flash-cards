@@ -8,6 +8,7 @@ import (
 //FlashCards testing
 type FlashCards interface{
 	GetCards() []Card
+	Shuffle()
 }
 
 // Cards is a data structure to hold all of the flash cards
