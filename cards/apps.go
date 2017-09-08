@@ -55,13 +55,13 @@ func RandomCardApp(csvFile string) {
 }
 
 //FlashcardApp is used to run the terminal flashcard app
-func FlashcardApp(csvFile string) {
+func FlashcardApp(cards FlashCards) {
 	//Clear the screen
 	Clear()
 
 	// holds all the cards
-	cards := CreateCards(csvFile, false)
-	cards.Shuffle()
+	//cards := CreateCards(csvFile, false)
+	//cards.Shuffle()
 
 	input := bufio.NewScanner(os.Stdin)
 	var userInput string
@@ -71,9 +71,9 @@ func FlashcardApp(csvFile string) {
 
 	//Need to print the first card...
 	cardFace = InputCardFace(userInput)
-	output = TemplateString(cards.Cards[count], cardFace)
-	PrintToScreen(output, cards.Cards[count], os.Stdout)
-	fmt.Printf(COUNTERTEXT, count+1, len(cards.Cards))
+	output = TemplateString(cards.GetCards()[count], cardFace)
+	PrintToScreen(output, cards.GetCards()[count], os.Stdout)
+	fmt.Printf(COUNTERTEXT, count+1, len(cards.GetCards()))
 	fmt.Printf(HELPTEXT)
 	fmt.Printf(USERINPUTTEXT)
 
@@ -89,13 +89,13 @@ func FlashcardApp(csvFile string) {
 		}
 		count = CardSelectCounter(userInput, count)
 		//Break if out of range
-		if len(cards.Cards) <= count {
+		if len(cards.GetCards()) <= count {
 			break
 		}
 		cardFace = InputCardFace(userInput)
-		output = TemplateString(cards.Cards[count], cardFace)
-		PrintToScreen(output, cards.Cards[count], os.Stdout)
-		fmt.Printf(COUNTERTEXT, count+1, len(cards.Cards))
+		output = TemplateString(cards.GetCards()[count], cardFace)
+		PrintToScreen(output, cards.GetCards()[count], os.Stdout)
+		fmt.Printf(COUNTERTEXT, count+1, len(cards.GetCards()))
 		fmt.Printf(HELPTEXT)
 		fmt.Printf(USERINPUTTEXT)
 	}

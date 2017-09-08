@@ -12,6 +12,9 @@ func main() {
 	//CSV file that was passed in
 	flag.Parse()
 
+	cards := flashcards.CreateCards(*csvFile, false)
+	cards.Shuffle()
+
 	//Run the app
-	flashcards.GroupCardsApp(*csvFile, *numOfGroups)
+	flashcards.FlashcardApp(cards)
 }

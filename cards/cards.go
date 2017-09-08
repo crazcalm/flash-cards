@@ -5,9 +5,19 @@ import (
 	"time"
 )
 
+//FlashCards testing
+type FlashCards interface{
+	GetCards() []Card
+}
+
 // Cards is a data structure to hold all of the flash cards
 type Cards struct {
 	Cards []Card
+}
+
+//GetCards returns the cards
+func (c Cards) GetCards() []Card {
+	return c.Cards
 }
 
 func init() {
