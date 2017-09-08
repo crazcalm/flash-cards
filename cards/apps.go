@@ -29,7 +29,7 @@ func GroupCardsApp(csvFile string, numOfGroups int) {
 		for count<len(cards.Cards) {
 			output := CreateTemplate("test7", GROUPCARD)
 			fmt.Print(count, " ")
-			PrintToScreen(output, cards.Cards[count])
+			PrintToScreen(output, cards.Cards[count], os.Stdout)
 			count++
 			if count > 0 && math.Mod(float64(count), float64(numOfPeopleInGroups)) == 0{
 				break
@@ -52,7 +52,7 @@ func RandomCardApp(csvFile string) {
 	cards.Shuffle()
 
 	template := CreateTemplate("test6", RANDOMCARD)
-	PrintToScreen(template, cards.Cards[0])
+	PrintToScreen(template, cards.Cards[0], os.Stdout)
 }
 
 //FlashcardApp is used to run the terminal flashcard app
@@ -73,7 +73,7 @@ func FlashcardApp(csvFile string) {
 	//Need to print the first card...
 	cardFace = InputCardFace(userInput)
 	output = TemplateString(cards.Cards[count], cardFace)
-	PrintToScreen(output, cards.Cards[count])
+	PrintToScreen(output, cards.Cards[count], os.Stdout)
 	fmt.Printf(COUNTERTEXT, count+1, len(cards.Cards))
 	fmt.Printf(HELPTEXT)
 	fmt.Printf(USERINPUTTEXT)
@@ -95,7 +95,7 @@ func FlashcardApp(csvFile string) {
 		}
 		cardFace = InputCardFace(userInput)
 		output = TemplateString(cards.Cards[count], cardFace)
-		PrintToScreen(output, cards.Cards[count])
+		PrintToScreen(output, cards.Cards[count], os.Stdout)
 		fmt.Printf(COUNTERTEXT, count+1, len(cards.Cards))
 		fmt.Printf(HELPTEXT)
 		fmt.Printf(USERINPUTTEXT)

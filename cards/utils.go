@@ -6,11 +6,12 @@ import (
 	"os/exec"
 	"strings"
 	"text/template"
+	"io"
 )
 
 //PrintToScreen prints templates to standard out
-func PrintToScreen(templ *template.Template, data interface{}) {
-	err := templ.Execute(os.Stdout, data)
+func PrintToScreen(templ *template.Template, data interface{}, w io.Writer) {
+	err := templ.Execute(w, data)
 	if err != nil {
 		log.Fatal(err)
 	}
