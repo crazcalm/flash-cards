@@ -6,7 +6,7 @@ import (
 )
 
 //FlashCards testing
-type FlashCards interface{
+type FlashCards interface {
 	GetCards() []Card
 	Shuffle()
 }
