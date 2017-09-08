@@ -12,6 +12,7 @@ func FlashcardApp(cards FlashCards, shuffle bool) {
 	//Clear the screen
 	Clear()
 
+	//Shuffles the cards
 	if shuffle {
 		cards.Shuffle()
 	}
