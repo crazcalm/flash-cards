@@ -1,12 +1,12 @@
 package flashcards
 
 import (
+	"io"
 	"log"
 	"os"
 	"os/exec"
 	"strings"
 	"text/template"
-	"io"
 )
 
 //PrintToScreen prints templates to standard out

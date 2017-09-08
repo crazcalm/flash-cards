@@ -2,12 +2,12 @@ package flashcards
 
 import (
 	"bytes"
+	"strings"
 	"testing"
 	"text/template"
-	"strings"
 )
 
-func TestPrintToScreen(t *testing.T){
+func TestPrintToScreen(t *testing.T) {
 	// testing template
 	templ, err := template.New("testing1").Parse("{{.Front}} {{.Back}} {{.Hint}}")
 	if err != nil {
@@ -15,9 +15,9 @@ func TestPrintToScreen(t *testing.T){
 	}
 
 	// Test cases
-	var tests = []struct{
-		card		Card
-		expected	string
+	var tests = []struct {
+		card     Card
+		expected string
 	}{
 		{
 			Card{"Front", "Back", "Hint"},
@@ -31,7 +31,7 @@ func TestPrintToScreen(t *testing.T){
 
 	b := new(bytes.Buffer)
 
-	for _, test := range tests{
+	for _, test := range tests {
 		PrintToScreen(templ, test.card, b)
 
 		got := b.String()

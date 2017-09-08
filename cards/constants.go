@@ -6,7 +6,7 @@ const (
 	//CARDBACK template for the back of the card
 	CARDBACK = "Card back:\n{{.Back}}\n\n\n"
 	//CARDHINT template for the card hint
-	CARDHINT = "Card Hint:\n{{.Hint}}\n\n\n"
+	CARDHINT = "Card hint:\n{{.Hint}}\n\n\n"
 	//HELPTEXT shows the commands
 	HELPTEXT = "\n\n(n)ext (p)revious (f)lip (h)int (q)uit\n"
 	//COUNTERTEXT template for card counter text

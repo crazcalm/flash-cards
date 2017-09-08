@@ -33,10 +33,10 @@ func CreateCards(fileName string, skipHeader bool) Cards {
 		if err != nil {
 			log.Fatal(err)
 		}
-		
-		if skipHeader && count == 0{
-			
-		}else {
+
+		if skipHeader && count == 0 {
+
+		} else {
 			// Tempt variable for card
 			tempt = Card{record[0], record[1], record[2]}
 

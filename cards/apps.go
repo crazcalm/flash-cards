@@ -3,9 +3,9 @@ package flashcards
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"text/template"
-	"math"
 )
 
 //GroupCardsApp Breaks the cards into groups
@@ -19,26 +19,25 @@ func GroupCardsApp(csvFile string, numOfGroups int) {
 	//Shuffles the cards
 	cards.Shuffle()
 
-	numOfPeopleInGroups := math.Ceil(float64(len(cards.Cards))/float64(numOfGroups))
+	numOfPeopleInGroups := math.Ceil(float64(len(cards.Cards)) / float64(numOfGroups))
 
 	//count is used for the internal loop
 	var count int
 
-	for i:= 1; i<=numOfGroups; i++ {
+	for i := 1; i <= numOfGroups; i++ {
 		fmt.Printf("Group %d:\n", i)
-		for count<len(cards.Cards) {
+		for count < len(cards.Cards) {
 			output := CreateTemplate("test7", GROUPCARD)
 			fmt.Print(count, " ")
 			PrintToScreen(output, cards.Cards[count], os.Stdout)
 			count++
-			if count > 0 && math.Mod(float64(count), float64(numOfPeopleInGroups)) == 0{
+			if count > 0 && math.Mod(float64(count), float64(numOfPeopleInGroups)) == 0 {
 				break
-			} 
+			}
 		}
 	}
-	
-}
 
+}
 
 //RandomCardApp Prints out one random card
 func RandomCardApp(csvFile string) {
