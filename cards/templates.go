@@ -25,9 +25,9 @@ func TemplateString(c *Card, face string) *template.Template {
 		//Checks the flipped state and flips accordingly
 		if c.Flipped == true {
 			result = CreateTemplate("test5", CARDFRONT)
-		}else{
+		} else {
 			result = CreateTemplate("test4", CARDBACK)
-			}
+		}
 		//Change the flip state
 		c.Flip()
 	} else {

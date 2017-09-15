@@ -8,7 +8,7 @@ import (
 
 func TestTemplateString(t *testing.T) {
 	// Test card
-	card := Card{"FRONT!!!", "BACK!!!", "HINT!!!"}
+	card := Card{"FRONT!!!", "BACK!!!", "HINT!!!", false}
 
 	// test cases
 	var tests = []struct {
@@ -49,7 +49,7 @@ func TestTemplateString(t *testing.T) {
 	b := new(bytes.Buffer)
 
 	for _, test := range tests {
-		templ := TemplateString(card, test.input)
+		templ := TemplateString(&card, test.input)
 
 		err := templ.Execute(b, card)
 		if err != nil {
