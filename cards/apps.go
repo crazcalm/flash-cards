@@ -25,7 +25,7 @@ func FlashcardApp(cards FlashCards, shuffle bool) {
 
 	//Need to print the first card...
 	cardFace = InputCardFace(userInput)
-	output = TemplateString(cards.GetCards()[count], cardFace)
+	output = TemplateString(&cards.GetCards()[count], cardFace)
 	PrintToScreen(output, cards.GetCards()[count], os.Stdout)
 	fmt.Printf(COUNTERTEXT, count+1, len(cards.GetCards()))
 	fmt.Printf(HELPTEXT)
@@ -47,7 +47,7 @@ func FlashcardApp(cards FlashCards, shuffle bool) {
 			break
 		}
 		cardFace = InputCardFace(userInput)
-		output = TemplateString(cards.GetCards()[count], cardFace)
+		output = TemplateString(&cards.GetCards()[count], cardFace)
 		PrintToScreen(output, cards.GetCards()[count], os.Stdout)
 		fmt.Printf(COUNTERTEXT, count+1, len(cards.GetCards()))
 		fmt.Printf(HELPTEXT)

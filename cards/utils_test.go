@@ -20,11 +20,11 @@ func TestPrintToScreen(t *testing.T) {
 		expected string
 	}{
 		{
-			Card{"Front", "Back", "Hint"},
+			Card{"Front", "Back", "Hint", false},
 			"Front Back Hint",
 		},
 		{
-			Card{"NANA", "NA", "Batman"},
+			Card{"NANA", "NA", "Batman", false},
 			"NANA NA Batman",
 		},
 	}
