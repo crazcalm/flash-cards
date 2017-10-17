@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"strings"
 	"text/template"
+	"runtime"
 )
 
 //PrintToScreen prints templates to standard out
@@ -30,7 +31,11 @@ func InSlice(slice []string, s string) bool {
 
 // Clear clears the screen.
 func Clear() {
-	c := exec.Command("clear")
+	clear := "clear"
+	if runtime.GOOS == "windows" {
+	    clear = "cls"
+	}
+	c := exec.Command(clear)
 	c.Stdout = os.Stdout
 	c.Run()
 }
