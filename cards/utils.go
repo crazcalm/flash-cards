@@ -31,11 +31,12 @@ func InSlice(slice []string, s string) bool {
 
 // Clear clears the screen.
 func Clear() {
-	clear := "clear"
+	var c *exec.Cmd
 	if runtime.GOOS == "windows" {
-	    clear = "cls"
+	    c = exec.Command("cmd", "/c", "cls")
+	}else {
+		c = exec.Command("clear")
 	}
-	c := exec.Command(clear)
 	c.Stdout = os.Stdout
 	c.Run()
 }
