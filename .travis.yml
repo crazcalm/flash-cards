@@ -1,4 +1,14 @@
 language: go
+before_install:
+  - go get github.com/golang/lint/golint
+  - go get honnef.co/go/tools/cmd/staticcheck
+  - go get github.com/mattn/goveralls
+
 go:
-  - master
-script: go test ./...
+  - 1.x
+
+script:
+  - staticcheck ./...
+  - golint -set_exit_status ./...
+  - go test ./...
+- $GOPATH/bin/goveralls -service=travis-ci
