@@ -18,7 +18,7 @@ The csv file should be of the form:
 
 ### Interface
 
-	Usage of ./flash-cards:
+	Usage of flash-cards:
  	-f string
 		file: path to csv file
   	-s 	Shuffle the cards (default true)
