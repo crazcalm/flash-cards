@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 	"text/template"
-	"runtime"
 )
 
 //PrintToScreen prints templates to standard out
@@ -33,10 +33,14 @@ func InSlice(slice []string, s string) bool {
 func Clear() {
 	var c *exec.Cmd
 	if runtime.GOOS == "windows" {
-	    c = exec.Command("cmd", "/c", "cls")
-	}else {
+		c = exec.Command("cmd", "/c", "cls")
+	} else {
 		c = exec.Command("clear")
 	}
 	c.Stdout = os.Stdout
-	c.Run()
+
+	err := c.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
 }

@@ -28,8 +28,8 @@ func FlashcardApp(cards FlashCards, shuffle bool) {
 	output = TemplateString(&cards.GetCards()[count], cardFace)
 	PrintToScreen(output, cards.GetCards()[count], os.Stdout)
 	fmt.Printf(COUNTERTEXT, count+1, len(cards.GetCards()))
-	fmt.Printf(HELPTEXT)
-	fmt.Printf(USERINPUTTEXT)
+	fmt.Print(HELPTEXT)
+	fmt.Print(USERINPUTTEXT)
 
 	// Testing out the user interface loop
 	for input.Scan() {
@@ -50,8 +50,8 @@ func FlashcardApp(cards FlashCards, shuffle bool) {
 		output = TemplateString(&cards.GetCards()[count], cardFace)
 		PrintToScreen(output, cards.GetCards()[count], os.Stdout)
 		fmt.Printf(COUNTERTEXT, count+1, len(cards.GetCards()))
-		fmt.Printf(HELPTEXT)
-		fmt.Printf(USERINPUTTEXT)
+		fmt.Print(HELPTEXT)
+		fmt.Print(USERINPUTTEXT)
 	}
 
 	fmt.Println("The program completed running")

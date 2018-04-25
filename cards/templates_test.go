@@ -59,7 +59,7 @@ func TestTemplateString(t *testing.T) {
 
 		// Checks that the output has all the required parts
 		for _, item := range test.expected {
-			if strings.Contains(got, item) != true {
+			if !strings.Contains(got, item) {
 				t.Errorf("TemplateString: (%s) does not contain (%s)", got, item)
 			}
 		}
